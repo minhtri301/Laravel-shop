@@ -1,0 +1,10 @@
+.chitiet3{
+	gap: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.chitiet3 img{
+	width: 150px;
+    height: 150px;
+}
