@@ -105,16 +105,16 @@
                                      @endforeach
                                 </ul>
                             </li>
-                            <li><a href="{{URL::to('/danh-muc-san-pham')}}">Sản phẩm</a>
+                            <li><a href="{{URL::to('/san-pham')}}">Sản phẩm</a>
                                 
                             </li>
                             <li><a >Dịch vụ</a>
                              <ul class="sub-menu2">
-                                    <li><a href="shop.html">Bảo hành - Sửa chữa</a></li>
+                                    <li><a href="{{URL::to('/view-lienhe-baohanh')}}">Bảo hành - Sửa chữa</a></li>
                                     
                                 </ul>
                             </li>
-                            <li><a href="shop.html">Liên hệ</a>
+                            <li><a href="{{URL::to('/view-lienhe-content')}}">Liên hệ</a>
                                
                             </li>
 
@@ -124,9 +124,9 @@
                                 if($customer_id!=null){ ?>
                                     <a >Tài khoản</a>
                                     <ul class="sub-menu2">
-                                    <li><a >Hi {{Session::get('customer_name')}}</a></li>
-                                    <li><a >Lịch sử đơn hàng</a></li>
-                                    <li><a href="{{URL::to('/logout-checkout')}}">Đăng xuất</a></li>
+                                    <li><a><i class="fa fa-user"></i>   Hi {{Session::get('customer_name')}}</a></li>
+                                    <li><a href="{{URL::to('/history')}}" ><i class="fa fa-bell"></i>  Lịch sử đơn hàng</a></li>
+                                    <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-power-off"> </i> Đăng xuất</a></li>
                                 </ul>
                                     
 
@@ -219,28 +219,37 @@
 
 <!-- logo carousel -->
 <div class="logo-carousel-section">
+
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="logo-carousel-inner">
-                    <div class="single-logo-item">
-                        <img src="assets/img/company-logos/1.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="assets/img/company-logos/2.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="assets/img/company-logos/3.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="assets/img/company-logos/4.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="assets/img/company-logos/5.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
+<div style="display: flex;flex-direction: row;justify-content: center;font-size: 24px;color: #555c5c; margin-bottom: 40px;
+    font-weight: 600;"><span>-------- Khách hàng của chúng tôi --------</span></div>
+ <div class="a" style="display: flex;width: 1380px;flex-direction: row;justify-content: space-evenly;margin-left: -137px;">
+              
+                  
+                        <img src="{{('public/frontend/images/img/UNILEVER-1.jpg')}}" alt="">
+                
+                 
+                        <img src="{{('public/frontend/images/img/POCA-1.jpg')}}" alt="">
+                  
+                    
+                        <img src="{{('public/frontend/images/img/PETRO-1.jpg')}}" alt="">
+                   
+                 
+                        <img src="{{('public/frontend/images/img/Bosch_logo-1.jpg')}}" alt="">
+                   
+                   
+                        <img src="{{('public/frontend/images/img/NESTLE-1.jpg')}}" alt="">
+                  
+                        <img src="{{('public/frontend/images/img/NUMBER-1-1.jpg')}}" alt="">
+                   
+                        <img src="{{('public/frontend/images/img/LAVIE-1.jpg')}}" alt="">
+                  
+                        <img src="{{('public/frontend/images/img/EVN-1.jpg')}}" alt="">
+                 
+                  
+     </div>
+    
+
     </div>
 </div>
 <!-- end logo carousel -->
@@ -346,7 +355,7 @@
 <script src="{{asset('public/frontend/js2/bootstrap.min.js')}}"></script>
 <script src="{{asset('public/frontend/js2/jquery.prettyPhoto.js')}}"></script>
 <script src="{{asset('public/frontend/js2/main.js')}}"></script>
-
+  <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script src="{{asset('public/backend/js/jqueryform-validator.min.js')}}"></script>
 <script type="text/javascript">
     $.validate({
@@ -498,7 +507,7 @@
                  }
              });
                    window.setTimeout(function(){
-                       location.reload();
+                       window.location.href = "{{url('/history')}}";
                    },3000);
 
               } else {
@@ -514,6 +523,68 @@
 
   })
 </script>
+
+
+<script type="text/javascript">
+    function view(){
+       if(localStorage.getItem('data')!=null){
+        var data = JSON.parse(localStorage.getItem('data')); 
+
+        for(i=0;i<data.length;i++){
+            var name = data[i].name; 
+            var price = data[i].price; 
+            var image = data[i].image; 
+            var url = data[i].url; 
+               $('#row_wishlist').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="'+image+'"></div><div class="col-md-8 info_wishlist"><p>'+name+'</p><p>'+price+'</p><a href="'+url+'">dat hang</a></div></div>');
+        }
+       }
+
+    }
+    view();
+
+    function add_wistlist(clicked_id){
+        var id = clicked_id;
+        var name = document.getElementById('wishlist_productname'+id).value; 
+        var price =  document.getElementById('wishlist_productprice'+id).value; 
+        var image =  document.getElementById('wishlist_productimage'+id).src; 
+        var url = document.getElementById('wishlist_producturl'+id).href; 
+    // alert(id);
+    // alert(name); 
+    // alert(price); 
+    // alert(image);
+    // alert(url);
+        var newItem = {
+            'url' :url, 
+            'id' :id, 
+            'name' :name; 
+            'price' :price; 
+            'image' :image
+        }
+            if(localStorage.getItem('data')==null){
+                localStorage.setItem('data','[]');
+            }
+
+            var old_data = JSON.parse(localStorage.getItem('data'));
+
+            var matches = $.grep(old_data, function(obj){return obj.id == id;})
+
+            if(matches.length){
+                 alert('Sản phẩm bạn đã yêu thích, nên không thể thêm');
+            }else{
+                old_data.push(newItem); 
+                $('#row_wishlist').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="'+newItem.image+'"></div><div class="col-md-8 info_wishlist"><p>'+newItem.name+'</p><p>'+newItem.price+'</p><a href="'+newItem.url+'">dat hang</a></div>');
+
+            }
+            localStorage.setItem('data', JSON.stringify(old_data));
+
+
+ }
+</script>
+
+
+
+
+
 
 </body>
 </html>

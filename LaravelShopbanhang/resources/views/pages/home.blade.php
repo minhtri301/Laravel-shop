@@ -55,29 +55,7 @@
     <div class="row">
       <div class="col-lg-8 col-md-6 mb-4 mb-lg-0">
          
-     <!--     <div class="chialon" style="    width: 100%;
-    display: flex;
-    flex-direction: column;">
-              
-              <div class="chianho" style="display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 64px;">
-                <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/69_RE-AV0001S00B-699x69975.webp')}}"></div>
-              <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/7_C4634-3-699x69951.webp')}}"> </div>
-              <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/84_GA-2100-1ADR-699x69931.webp')}}"></div>
-            </div>
-            <div class="chianho" style="display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 64px;">
-                <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/20_C4621-4-699x69932.webp')}}"></div>
-              <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/2_C4696-18.webp')}}"></div>
-              <div class="ab"><img style="width: 200px" src="{{('public/uploads/product/69_RE-AV0001S00B-699x69975.webp')}}"> </div>
-            </div>
-              
-           
-          </div> -->
+
           
         <a href="#"><img src="{{('public/frontend/images/img/banner-trang-chu-doxa-grandemetre.jpg')}}"></a>
 

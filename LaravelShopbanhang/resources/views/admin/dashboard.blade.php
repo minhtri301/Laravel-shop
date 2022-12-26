@@ -1,4 +1,4 @@
 @extends('admin_layout')
 @section('admin_content')
-       <h3>chào mừng bạn đến với admin</h3>
+       <h3>Xin Chào </h3>
 @endsection

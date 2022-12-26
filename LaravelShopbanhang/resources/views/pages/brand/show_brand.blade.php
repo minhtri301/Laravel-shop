@@ -24,7 +24,7 @@
                             	<ul class="nav nav-pills nav-stacked" style="display: flex;
                             	flex-direction: column;">
                                     @foreach($brand as $key3 => $brand2)
-                                     <li><a href=""> <span class="pull-right"></span>{{$brand2->brand_name}}</a></li>
+                                     <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand2->slug_brand_product)}}"> {{$brand2->brand_name}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>

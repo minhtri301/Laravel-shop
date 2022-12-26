@@ -21,12 +21,14 @@
                         <div class="brands_products"><!--brands_products-->
                             <h2>Thương hiệu sản phẩm</h2>
                             <div class="brands-name">
+                                 @foreach($brand as $key3 => $brand2)
                             	<ul class="nav nav-pills nav-stacked" style="display: flex;
                             	flex-direction: column;">
-                                    @foreach($brand as $key3 => $brand2)
-                                     <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand2->slug_brand_product)}}"> <span class="pull-right"></span>{{$brand2->brand_name}}</a></li>
-                                    @endforeach
+                                   
+                                     <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand2->slug_brand_product)}}"> {{$brand2->brand_name}}</a></li>
+                                
                                 </ul>
+                                    @endforeach
                             </div>
                         </div><!--/brands_products-->
                         

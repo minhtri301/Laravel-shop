@@ -22,11 +22,11 @@ class ProductController extends Controller
         }
 
     }
-    public function danh_muc_san_pham(Request $request){
+    public function san_pham(Request $request){
            $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id','desc')->get();
 
-        $all_product = DB::table('tbl_product')->get();
+        $all_product = DB::table('tbl_product')->orderby('product_id','desc')->paginate(8);
 
         
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
          $this->AuthLogin();
     	$all_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
-        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')->orderby('tbl_product.product_id','desc')->get();
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')->orderby('tbl_product.product_id','desc')->paginate(8);
     	$manager_product = view('admin.all_product')->with('all_product',$all_product);
     	return view('admin_layout')->with('all',$manager_product);
     }

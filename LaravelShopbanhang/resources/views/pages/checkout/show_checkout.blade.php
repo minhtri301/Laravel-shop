@@ -16,13 +16,25 @@
 				<div class="row">
 					
 					<div class="col-sm-12 clearfix">
+
+
+						<a class="btn btn-primary m-3" href="{{ route('processTransaction') }}"> </a>
+						@if(\Session::has('error'))
+						<div class="alert alert-danger">{{ \Session::get('error') }}</div>
+						{{ \Session::forget('error') }}
+						@endif
+						@if(\Session::has('success'))
+						<div class="alert alert-success">{{ \Session::get('success') }}</div>
+						{{ \Session::forget('success') }}
+						@endif
+
 						<div class="bill-to">
 							<p>Điền thông tin gửi hàng</p>
-							<div class="form-one">
-								<form method="POST">
+							<div class="form-one" style="display: flex;flex-direction: row;justify-content: space-between; width: 100%;">
+								<form method="POST" style="    width: 50%;">
 									@csrf
 									<input type="text" name="shipping_email" class="shipping_email" placeholder="Điền email">
-									<input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên người gửi" >
+									<input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên người nhận" >
 									<input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ gửi hàng">
 									<input type="text" name="shipping_phone" class="shipping_phone" placeholder="Số điện thoại">
 									<textarea name="shipping_notes" class="shipping_notes" placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
@@ -46,15 +58,21 @@
 									<div class="">
 										 <div class="form-group">
 		                                    <label for="exampleInputPassword1">Chọn hình thức thanh toán</label>
+		                                    @if(!Session::get('thanhcong_paypal')==true)
 		                                      <select name="payment_select"  class="form-control input-sm m-bot15 payment_select">
 		                                            <option value="0">Qua chuyển khoản</option>
 		                                            <option value="1">Tiền mặt</option>   
-		                                    </select>
+		                                      </select>
+		                                    @else
+		                                      <select name="payment_select"  class="form-control input-sm m-bot15 payment_select">
+		                                            <option value="2">Đã thanh toán thành công bằng Paypal</option> 
+		                                      </select>
+		                                    @endif
 		                                </div>
 									</div>
 									<input type="button" value="Xác nhận đơn hàng" name="send_order" class="btn btn-primary btn-sm send_order" >
 								</form>
-								<form method="post" >
+								<form method="post" style="width: 43%;">
                                     @csrf 
                              
                                 <div class="form-group">
@@ -143,7 +161,11 @@
 											<div class="cart_quantity_button">
 											
 											
-												<input class="cart_quantity" type="number" min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
+												<input class="cart_quantity" type="number" 
+												@if(Session::get('thanhcong_paypal')==true)
+                                                readonly 
+												@endif
+												 min="1" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
 											
 												
 											</div>
@@ -155,19 +177,30 @@
 											</p>
 										</td>
 										<td class="cart_delete">
+											@if(!Session::get('thanhcong_paypal')==true)
 											<a class="cart_quantity_delete" href="{{url('/del-product/'.$cart['session_id'])}}"><i class="fa fa-times"></i></a>
+											@endif 
 										</td>
 									</tr>
 									
 									@endforeach
 									<tr>
-										<td><input type="submit" style="padding: 6px 15px;color: #ffffff;font-weight: 500;font-size: 13px;" value="Cập nhật giỏ hàng" name="update_qty" class="check_out btn btn-default btn-sm"></td>
-										<td><a style="border-radius: 20px;" class="btn btn-default check_out" href="{{url('/del-all-product')}}">Xóa tất cả</a></td>
+										@if(!Session::get('thanhcong_paypal')==true)
+										<td>
+											<input type="submit" style="padding: 6px 15px;color: #ffffff;font-weight: 500;font-size: 13px;" value="Cập nhật giỏ hàng" name="update_qty" class="check_out btn btn-default btn-sm">
+										</td>
+										<td>
+											<a style="border-radius: 20px;" class="btn btn-default check_out" href="{{url('/del-all-product')}}">Xóa tất cả</a>					
+										</td>
+										{{-- <td>
+											 <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Thanh toán bằng Paypal</a>
+										</td> --}}
 										<td>
 											@if(Session::get('coupon'))
 				                          	<a style="border-radius: 20px;" class="btn btn-default check_out" href="{{url('/unset-coupon')}}">Xóa mã khuyến mãi</a>
 											@endif
 										</td>
+										@endif
 
 										
 										<td colspan="2">
@@ -234,6 +267,15 @@
 
 										@endphp
 										</li>
+										<div class="col-md-12">
+											@php 
+											$vnd_to_usd = $total_after/23083;
+											$totalpaypal = round($vnd_to_usd,2);
+											\Session::put('total_paypal',$totalpaypal)
+											@endphp
+											
+											
+										 </div>
 										
 									</td>
 									</tr>
@@ -253,14 +295,34 @@
 							</form>
 								@if(Session::get('cart'))
 								<tr><td>
-
+									@if(!Session::get('thanhcong_paypal')==true)
 										<form method="POST" action="{{url('/check-coupon')}}">
 											@csrf
 												<input type="text" style="margin-top: 19px;" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br>
 				                          		<input type="submit" style="padding: 6px 15px;color: #ffffff;font-weight: 500;font-size: 13px;margin-top: -16px;" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá">
 				                          	
 			                          		</form>
+			                         
 			                          	</td>
+
+			                          	<td>
+
+											 <a class="btn btn-primary m-3" style="border-radius: 20px;" class="btn btn-default check_out" href="{{ route('processTransaction') }}">Thanh toán bằng Paypal</a>
+								
+			                          		<form action="{{url('/vnpay-payment')}}" method="post">
+												@csrf
+											<input type="hidden" name="total_vnpay" value="{{$total_after}}">
+											<button type="submit" style="border-radius: 20px;" class="btn btn-default check_out" name="redirect">Thanh toán VNPAY </button>
+											</form>
+
+
+											<form action="{{url('/momo-payment')}}" method="post">
+												@csrf
+											<input type="hidden" name="total_momo" value="{{$total_after}}">
+											<button type="submit" style="border-radius: 20px;" class="btn btn-default check_out" name="payUrl">Thanh toán MOMO </button>
+											</form>
+			                          	</td>
+			                          	@endif
 								</tr>
 								@endif
 

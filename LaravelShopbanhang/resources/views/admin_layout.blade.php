@@ -101,6 +101,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
+                        <span>Quản lý tài khoản khách hàng</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('/all-customer')}}">Quản lý tài khoản</a></li>
+                      
+        
+                        
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
                         <span>Danh mục sản phẩm</span>
                     </a>
                     <ul class="sub">
@@ -150,6 +162,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </a>
                     <ul class="sub">
                         <li><a href="{{URL::to('/delivery')}}">Quản lý vận chuyển</a></li>
+                      
+        
+                        
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Liên hệ</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('/lienhe-baohanh')}}">Quản lý - trang bảo hành sửa chữa</a></li>
+                         
                       
         
                         
@@ -346,6 +371,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace('ckeditor1');
     CKEDITOR.replace('ckeditor2');
     CKEDITOR.replace('ckeditor3');
+     CKEDITOR.replace('ckeditor4');
+      CKEDITOR.replace('ckeditor5');
 </script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>

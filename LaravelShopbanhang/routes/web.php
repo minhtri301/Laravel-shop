@@ -37,7 +37,7 @@ Route::post('/tim-kiem','HomeController@search');
 Route::get('/danh-muc-san-pham/{slug_category_product}','CategoryProduct@show_category_home');
 Route::get('/thuong-hieu-san-pham/{slug_brand_product}','BrandProduct@show_brand_home');
 Route::get('/chi-tiet-san-pham/{slug_product}','ProductController@details_product');
-Route::get('/danh-muc-san-pham','ProductController@danh_muc_san_pham');
+Route::get('/san-pham','ProductController@san_pham');
 
 
 
@@ -47,6 +47,18 @@ Route::get('/admin','AdminController@index');
 Route::get('/dashboard','AdminController@show_dashboard');
 Route::post('/admin-dashboard','AdminController@dashboard');
 Route::get('/logout','AdminController@logout');
+
+//khách hàng 
+Route::get('/all-customer','CustomerController@all_customer');
+Route::get('/delete-customer/{customer_id}','CustomerController@delete_csutomer');
+
+//lienhe-bao hanh sua chua
+Route::get('/lienhe-baohanh','LienheController@lienhe_baohanh'); 
+Route::get('/lienhe-content','LienheController@lienhe_content');
+Route::post('/save-lienhe-baohanh','LienheController@save_lienhe_baohanh'); 
+Route::post('/save-lienhe-content','LienheController@save_lienhe_content');
+Route::get('/view-lienhe-baohanh','LienheController@view_lienhe_baohanh'); 
+Route::get('/view-lienhe-content','LienheController@view_lienhe_content');
 
 
 //category product
@@ -119,13 +131,17 @@ Route::get('/logout-checkout','CheckoutController@logout_checkout');
 Route::post('/add-customer','CheckoutController@add_customer');
 Route::post('/order-place','CheckoutController@order_place');
 Route::post('/login-customer','CheckoutController@login_customer');
-Route::get('/checkout','CheckoutController@checkout');
+Route::get('/checkout','CheckoutController@checkout')->name('checkout');
 Route::get('/payment','CheckoutController@payment');
 Route::post('/save-checkout-customer','CheckoutController@save_checkout_customer');
 Route::post('/select-delivery-cart','CheckoutController@select_delivery_cart');
 Route::post('calculate-fee','CheckoutController@calculate_fee');
 Route::get('del-fee','CheckoutController@del_fee');
 Route::post('confirm-order','CheckoutController@confirm_order');
+
+//lịch sử đơn hàng
+Route::get('history','OrderController@history');
+Route::get('view-history-order/{order_code}','OrderController@view_history_order');
 
 //order Admin
 Route::get('manage-order','OrderController@manage_order');
@@ -145,8 +161,14 @@ Route::post('/insert-delivery','DeliveryController@insert_delivery');
 Route::post('/select-feeship','DeliveryController@select_feeship');
 Route::post('/update-delivery','DeliveryController@update_delivery');
 
+//cong thanh toan
+Route::post('/vnpay-payment','CheckoutController@vnpay_payment');
+Route::post('/momo-payment','CheckoutController@momo_payment');
 
-
+Route::get('create-transaction', 'PayPalController@createTransaction')->name('createTransaction');
+Route::get('process-transaction', 'PayPalController@processTransaction')->name('processTransaction');
+Route::get('success-transaction', 'PayPalController@successTransaction')->name('successTransaction');
+Route::get('cancel-transaction', 'PayPalController@cancelTransaction')->name('cancelTransaction');
 
 
 
